@@ -1,0 +1,14 @@
+{
+  "name": "apartment-hunter-scraping",
+  "version": "1.0.0",
+  "description": "",
+  "main": "scrape.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Idan Itzhaky",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^5.4.1"
+  }
+}
