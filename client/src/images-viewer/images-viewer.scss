@@ -1,0 +1,16 @@
+.images-viewer {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+
+  li {
+    display: inline-block;
+    margin: 1em;
+
+    img {
+      width: 100%;
+      display: block;
+    }
+  }
+}

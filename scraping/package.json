@@ -4,11 +4,12 @@
   "description": "",
   "main": "scrape.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node scrape.js"
   },
   "author": "Idan Itzhaky",
   "license": "ISC",
   "dependencies": {
+    "mongoose": "^5.10.14",
     "puppeteer": "^5.4.1"
   }
 }

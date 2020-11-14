@@ -42,7 +42,15 @@ module.exports = {
       for(let imageNum in item.images)
         pictures.push(item.images[imageNum].src);
 
+      let row4 = {}
+      item.row_4.forEach(data => {
+        row4[data.key] = data.value;
+      });
+
       return {
+              date_added: item.date_added,
+              floor: row4.floor,
+              rooms: row4.rooms,
               text: item.title1,
               pictures,
               coordinates : item.coordinates,
