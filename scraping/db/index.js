@@ -13,6 +13,7 @@ var Schema = mongoose.Schema;
 let apartmentSchema = new Schema({
   date: Date,
   date_added: Date,
+  date_scraped: Date,
   price: Number,
   square_meters: Number,
   floor: String,
@@ -23,16 +24,18 @@ let apartmentSchema = new Schema({
   text:String,
   posterName: String,
   posterId:String,
-  link: String
+  link: String,
+  neighborhood: String,
 })
 
 let Apartment = mongoose.model('Apartment', apartmentSchema)
 
 module.exports = {
   addOrUpdateApartment: function(apartment){
+    apartment.date_scraped = new Date();
     return new Promise((resolve, reject) => {
       Apartment.findOneAndUpdate({postId: apartment.postId},
-        {$set: apartment}, {upsert: true, setDefaultsOnInsert: true, new:true},
+        {$set: apartment}, {upsert: true, setDefaultsOnInsert: true, new:true, useFindAndModify:false},
       (err, doc) => {
         if(err) reject(err);
         else resolve(doc)

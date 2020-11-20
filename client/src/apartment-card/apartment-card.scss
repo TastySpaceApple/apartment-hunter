@@ -1,7 +1,48 @@
 .apartment-card {
-  padding: 20px;
+  // padding: 20px;
   background: #f2f2f2;
   box-shadow: 0px 0px 3px rgba(0,0,0,0.5);
   border-radius: 20px;
   margin: 20px;
+  overflow: hidden;
+
+  .short_details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    text-align: center;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 80px;
+    li {
+      text-align: center;
+    }
+  }
+
+  .actions {
+    display: flex;
+    button {
+      border: none;
+      padding: 20px;
+      outline: none;
+      background: none;
+      cursor: pointer;
+      border-top: 1px solid #ccc;
+      flex:1;
+      & + button{
+        border-left: 1px solid #ccc;
+      }
+
+      &.actions__save:hover {
+        background: rgba(0,150,0,0.5);
+        color: #fff;
+      }
+
+      &.actions__remove:hover {
+        background: rgba(255,0,0,0.5);
+        color: #fff;
+      }
+    }
+  }
 }

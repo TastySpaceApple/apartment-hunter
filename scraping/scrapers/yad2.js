@@ -21,21 +21,46 @@ module.exports = {
 
     await page.goto(url);
     await sleep(2000);
-    let fetchUrl = `https://www.yad2.co.il/api/feed/get?cat=2&subcat=1&city=5000&neighborhood=${neighborhoodId}&price=-1-${maxPrice}&z=15&polygonMethod=square,32.06256492733179,34.77057872915793,32.05242460309729,34.78585498751232&isMapView=1&page=1`
+    //let fetchUrl = `https://www.yad2.co.il/api/feed/get?cat=2&subcat=1&city=5000&neighborhood=${neighborhoodId}&price=-1-${maxPrice}&z=15&polygonMethod=square,32.06256492733179,34.77057872915793,32.05242460309729,34.78585498751232&isMapView=1&page=1`
+    let fetchUrl = `https://www.yad2.co.il/api/feed/get?cat=2&subcat=1&price=-1-${maxPrice}&city=5000&z=11&isMapView=1&page=`;
+    let items = await page.evaluate(fetchUrl => {
 
-    let data = await page.evaluate(fetchUrl => {
+      async function fetchAllPages(){
 
-      async function fetchData(){
-        let response = await fetch(fetchUrl);
-        return response.json();
+        let page = 1;
+        let lastPage = 1;
+
+        function sleep(ms) {
+          return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function fetchData(){
+          let response = await fetch(fetchUrl + page);
+          let data = await response.json();
+          if(data.paginator && data.paginator.last_page)
+            lastPage = data.paginator.last_page
+          return data.feed.feed_items;
+        }
+
+        let items = []
+        let fetched = [];
+        while(page <= lastPage){
+          fetched = await fetchData();
+          items = [...items, ...fetched];
+          console.log(items.length);
+          page++;
+          await sleep(2000);
+        }
+        return items;
       }
-      return fetchData();
+      return fetchAllPages();
+      //return fetchData();
     }, fetchUrl)
 
     await page.close();
     await this.browser.close();
 
-    return data.feed.feed_items
+    return items//data.feed.feed_items
           .filter( item => !!item.date)
           .map(item => {
       let pictures = []
@@ -60,7 +85,8 @@ module.exports = {
               posterName: item.contact_name,
               posterId: item.customer_id,
               date: new Date(item.date || item.date_added),
-              link: `https://www.yad2.co.il/s/c/${item.link_token}`
+              link: `https://www.yad2.co.il/s/c/${item.link_token}`,
+              neighborhood : item.neighborhood
             }
     });
   }
