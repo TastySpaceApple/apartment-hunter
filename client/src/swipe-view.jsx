@@ -31,13 +31,13 @@ function SwipeView(){
   }, [])*/
 
   const loadNext = lastChoice => {
-    fetch("http://localhost:3000/api/save-choice-and-get-next", {
-        method: 'POST',
-        body: JSON.stringify({postId : item.postId, choice: lastChoice}),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
+    fetch("/api/save-choice-and-get-next", {
+          method: 'POST',
+          body: JSON.stringify({postId : item.postId, choice: lastChoice}),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
       .then(res => res.json())
       .then(
         (result) => {
