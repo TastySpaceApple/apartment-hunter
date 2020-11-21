@@ -49,7 +49,15 @@ module.exports = {
           loader: 'html-loader',
           options: {minimize: true}
         }
-      }
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ]
+      },
     ]
   },
   resolve: {

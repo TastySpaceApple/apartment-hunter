@@ -2,36 +2,17 @@ import React, {Component, Fragment, useEffect, useState} from 'react';
 import styles from './styles/main.scss';
 import ApartmentCard from "./apartment-card/apartment-card";
 
-const content = 'Hello world!';
+const isDev = process.env.NODE_ENV == 'development';
+const hostname = isDev ? 'http://localhost:3000' : '';
 
 function SwipeView(){
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [item, setItem] = useState({});
 
-  // Note: the empty deps array [] means
-  // this useEffect will run once
-  // similar to componentDidMount()
-  /*useEffect(() => {
-    fetch("http://localhost:3000/api/get-all")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setItems(result);
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      )
-  }, [])*/
-
   const loadNext = lastChoice => {
-    fetch("/api/save-choice-and-get-next", {
+    setIsLoaded(false);
+    fetch(`${hostname}/api/save-choice-and-get-next`, {
           method: 'POST',
           body: JSON.stringify({postId : item.postId, choice: lastChoice}),
           headers: {
