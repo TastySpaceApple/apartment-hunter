@@ -8,7 +8,7 @@ const ApartmentCard = ({ info, handleSave, handleRemove }) => {
   let monthsUpAdded = Math.floor(daysUpAdded / 30);
   let daysUpUpdated = (new Date().getTime() - new Date(info.date).getTime()) / (1000*60*60*24)
   daysUpUpdated = Math.floor(daysUpUpdated)
-  let monthsUpUpdated = Math.floor(monthsUpUpdated / 30);
+  let monthsUpUpdated = Math.floor(daysUpUpdated / 30);
   return <div className="apartment-card">
     <ul class="short_details">
       <li><small>מחיר</small><br/>{ info.price.toLocaleString() }</li>
@@ -20,7 +20,7 @@ const ApartmentCard = ({ info, handleSave, handleRemove }) => {
     </ul>
     <iframe width="100%" height="350" frameborder="0" scrolling="no"
             marginheight="0" marginwidth="0"
-            src={`https://www.openstreetmap.org/export/embed.html?bbox=34.719062807271264,32.03099935252474,34.87973785609939,32.12801497061816&layer=transportmap&marker=${info.coordinates.latitude},${info.coordinates.longitude}`}>
+            src={`https://www.openstreetmap.org/export/embed.html?bbox=34.719062807271264,32.03099935252474,34.87973785609939,32.12801497061816&layer=transportmap&marker=${info.location.coordinates[0]},${info.location.coordinates[1]}`}>
     </iframe>
     <br/>
     <a href={info.link}>{info.link}</a>

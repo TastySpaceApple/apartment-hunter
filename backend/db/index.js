@@ -18,7 +18,13 @@ let apartmentSchema = new Schema({
   square_meters: Number,
 	floor: Number,
 	rooms: Number,
-  coordinates: {},
+  location: {
+    type: {
+      type: String,
+      enum: ['Point']
+    },
+    coordinates: [Number]
+  },
   postId: String,
   pictures: [String],
   text:String,
@@ -26,6 +32,8 @@ let apartmentSchema = new Schema({
   posterId:String,
   link: String
 })
+
+apartmentSchema.index( { "location" : "2dsphere" } )
 
 let userChoiceScheme = new Schema({
   userId: Number,
@@ -47,6 +55,30 @@ userChoiceScheme.set('toJSON', { virtuals: true });
 let Apartment = mongoose.model('Apartment', apartmentSchema)
 let UserChoice = mongoose.model('UserChoice', userChoiceScheme)
 
+const badNeighborhoods = [
+  'יד אליהו',
+  'שפירא',
+  'תל ברוך צפון',
+  "תכנית ל', למד",
+  "נווה גולן, יפו ג'",
+  "צהלון, שיכוני חסכון",
+  'צהלה',
+  'כפיר, נווה כפיר',
+  'התקוה, בית יעקב, נווה צה"ל',
+  "יפו ד', גבעת התמרים",
+  "נחלת יצחק",
+  "יד אליהו",
+  "מכללת תל אביב יפו, דקר",
+  "קרית שלום",
+  "נווה אליעזר, כפר שלם מזרח",
+  "ניר אביב",
+  "נווה חן",
+  "נווה שרת",
+  "רמת החייל",
+  "רמת הטייסים",
+  "גלילות",
+  "נווה ברבור, כפר שלם מערב"
+]
 
 module.exports = {
   getNextApartment: async function(userId){
@@ -54,6 +86,7 @@ module.exports = {
     return Apartment.findOne(
       {
         postId: {$nin: ids},
+        neighborhood: {$nin: badNeighborhoods},
         price: {$ne : null},
         pictures: {$ne : []}
       });
@@ -63,6 +96,10 @@ module.exports = {
   },
   getSavedApartments: function(userId){
     return UserChoice.find({saved: true}).populate('post')
+  },
+  resetChoices: async function(query){
+    let ids = await Apartment.find(query).distinct('postId');
+    return UserChoice.remove({postId: {$in: ids}});
   },
   saveUserChoice: function(userId, postId, choice){
     return UserChoice.findOneAndUpdate({userId, postId},

@@ -18,7 +18,13 @@ let apartmentSchema = new Schema({
   square_meters: Number,
   floor: String,
   rooms: Number,
-  coordinates: {},
+  location: {
+    type: {
+      type: String,
+      enum: ['Point']
+    },
+    coordinates: [Number]
+  },
   postId: String,
   pictures: [String],
   text:String,

@@ -7,14 +7,11 @@ function sleep(ms) {
 }
 
 module.exports = {
-  neighborhoods: {
-    florentin: 205
-  },
   open: async function(){
     this.browser = await puppeteer.launch({headless:false, args: [ "--disable-notifications" ]});
   },
-  scrapeNeighborhood: async function(neighborhoodId, maxPrice){
-    let url = `https://www.yad2.co.il/realestate/forsale/map?city=5000&neighborhood=${neighborhoodId}&price=-1-${maxPrice}`;
+  scrapeCity: async function(maxPrice){
+    let url = `https://www.yad2.co.il/realestate/forsale/map?city=5000&price=-1-${maxPrice}`;
 
     page = await this.browser.newPage();
     let json = null;
@@ -78,7 +75,10 @@ module.exports = {
               rooms: row4.rooms,
               text: item.title1,
               pictures,
-              coordinates : item.coordinates,
+              location : {
+                type: 'Point',
+                coordinates: [item.coordinates.latitude, item.coordinates.longitude]
+              },
               price: item.price.replace(/\D/g, ''),
               square_meters: item.square_meters,
               postId: item.record_id,

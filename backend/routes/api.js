@@ -8,7 +8,8 @@ router.get('/get-all', async function(req,res){
 })
 
 router.get('/get-next', async function(req,res){
-  const post = await db.getNextApartment(1);
+  const centerPoint = [32.064427, 34.764790]
+  const post = await db.getNextApartment(1, centerPoint);
   res.json(post);
 })
 
