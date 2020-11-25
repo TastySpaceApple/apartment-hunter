@@ -7,9 +7,7 @@ const cors = require('cors');
 app.use(cors())
 
 app.use('/', express.static(path.join(__dirname, 'client')));
-app.use('/saved', (req, res) =>
-  res.sendFile(path.join(__dirname, 'client', 'index.html'))
-)
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -17,6 +15,10 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/api', require('./routes/api'));
+
+app.use('/[a-zA-Z]+', (req, res) =>
+  res.sendFile(path.join(__dirname, 'client', 'index.html'))
+)
 
 app.listen(process.env.PORT || 3000);
 
