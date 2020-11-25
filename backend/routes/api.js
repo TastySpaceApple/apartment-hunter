@@ -25,4 +25,10 @@ router.post('/save-choice-and-get-next', async function(req, res){
   res.json(post);
 })
 
+
+router.get('/find', async function(req, res){
+  const post = await db.findApartment({link: { $regex: new RegExp(req.query.linkId)} });
+  res.json(post);
+})
+
 module.exports = router;

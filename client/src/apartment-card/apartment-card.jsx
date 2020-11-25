@@ -18,10 +18,12 @@ const ApartmentCard = ({ info, handleSave, handleRemove }) => {
       <li><small>פורסם לפני</small><br/>{ monthsUpAdded > 0 ? `${monthsUpAdded} חודשים` : `${daysUpAdded} ימים` }</li>
       <li><small>עודכן</small><br/>{ monthsUpUpdated > 0 ? `${monthsUpUpdated} חודשים` : `${daysUpUpdated} ימים` }</li>
     </ul>
-    <iframe width="100%" height="350" frameborder="0" scrolling="no"
-            marginheight="0" marginwidth="0"
-            src={`https://www.openstreetmap.org/export/embed.html?bbox=34.719062807271264,32.03099935252474,34.87973785609939,32.12801497061816&layer=transportmap&marker=${info.location.coordinates[0]},${info.location.coordinates[1]}`}>
-    </iframe>
+    {info.location &&
+      <iframe width="100%" height="350" frameborder="0" scrolling="no"
+              marginheight="0" marginwidth="0"
+              src={`https://www.openstreetmap.org/export/embed.html?bbox=34.719062807271264,32.03099935252474,34.87973785609939,32.12801497061816&layer=transportmap&marker=${info.location.coordinates[0]},${info.location.coordinates[1]}`}>
+      </iframe>
+    }
     <br/>
     <a href={info.link}>{info.link}</a>
     <ImagesViewer images={info.pictures} />

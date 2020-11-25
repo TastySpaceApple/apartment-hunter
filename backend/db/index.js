@@ -77,7 +77,9 @@ const badNeighborhoods = [
   "רמת החייל",
   "רמת הטייסים",
   "גלילות",
-  "נווה ברבור, כפר שלם מערב"
+  "נווה ברבור, כפר שלם מערב",
+  "המשתלה",
+  "תל חיים"
 ]
 
 module.exports = {
@@ -90,6 +92,9 @@ module.exports = {
         price: {$ne : null},
         pictures: {$ne : []}
       });
+  },
+  findApartment: function(query){
+    return Apartment.findOne(query);
   },
   getAllSeenApartmentsIds: function(userId){
     return UserChoice.find({userId}).distinct('postId')

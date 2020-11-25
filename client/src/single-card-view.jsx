@@ -5,18 +5,19 @@ import ApartmentCard from "./apartment-card/apartment-card";
 const isDev = process.env.NODE_ENV == 'development';
 const hostname = isDev ? 'http://localhost:3000' : '';
 
-function SavedListView(){
+function SingleCardView(){
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+  const [item, setItem] = useState({});
 
-  const loadSaved = lastChoice => {
-    fetch(`${hostname}/api/get-saved`)
+  const loadNext = () => {
+    setIsLoaded(false);
+    fetch(`${hostname}/api/find${window.location.search}`)
       .then(res => res.json())
       .then(
         (result) => {
           console.log(result)
-          setItems(result);
+          setItem(result);
           setIsLoaded(true);
         },
         (error) => {
@@ -26,7 +27,7 @@ function SavedListView(){
       )
   }
 
-  useEffect(() => loadSaved(), [])
+  useEffect(() => loadNext(), [])
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -35,21 +36,13 @@ function SavedListView(){
   } else {
     return (
       <main>
-        <ul>
-        {
-          items.map((item) =>
-            <li key={item.postId}>
-              <ApartmentCard info={item.post}
-                handleRemove={() => {}}
-                handleSave={() => {}}
-              />
-            </li>
-          )
-        }
-        </ul>
+        <ApartmentCard info={item}
+          handleRemove={() => {} }
+          handleSave={() => {} }
+        />
       </main>
     );
   }
 }
 
-export default SavedListView;
+export default SingleCardView;
