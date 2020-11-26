@@ -21,9 +21,12 @@ let apartmentSchema = new Schema({
   location: {
     type: {
       type: String,
-      enum: ['Point']
+      default: 'Point'
     },
-    coordinates: [Number]
+    coordinates: {
+      type: [Number],
+      default: undefined
+    }
   },
   postId: String,
   pictures: [String],
@@ -33,6 +36,8 @@ let apartmentSchema = new Schema({
   link: String,
   neighborhood: String,
 })
+
+apartmentSchema.index( { "location" : "2dsphere" } )
 
 let Apartment = mongoose.model('Apartment', apartmentSchema)
 

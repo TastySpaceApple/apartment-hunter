@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import SwipeView from './swipe-view';
+import SwipeView from './views/swipe-view/swipe-view';
 import SavedListView from './saved-list-view';
 import SingleCardView from './single-card-view';
 

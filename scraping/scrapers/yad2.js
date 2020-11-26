@@ -75,10 +75,10 @@ module.exports = {
               rooms: row4.rooms,
               text: item.title1,
               pictures,
-              location : {
+              location: (!item.coordinates.latitude ? undefined : {
                 type: 'Point',
                 coordinates: [item.coordinates.latitude, item.coordinates.longitude]
-              },
+              }),
               price: item.price.replace(/\D/g, ''),
               square_meters: item.square_meters,
               postId: item.record_id,

@@ -25,7 +25,7 @@ const ApartmentCard = ({ info, handleSave, handleRemove }) => {
       </iframe>
     }
     <br/>
-    <a href={info.link}>{info.link}</a>
+    <a href={info.link} target="_blank">{info.link}</a>
     <ImagesViewer images={info.pictures} />
     <div className="actions">
       <button className="actions__save" onClick={handleSave}>Save</button>

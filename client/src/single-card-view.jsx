@@ -33,6 +33,8 @@ function SingleCardView(){
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
     return <div>Loading...</div>;
+  } else if (!item){
+    return <div>Not Found :/</div>;
   } else {
     return (
       <main>

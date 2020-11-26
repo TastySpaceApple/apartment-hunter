@@ -1,6 +1,7 @@
 import React, {Component, Fragment, useEffect, useState} from 'react';
-import styles from './styles/main.scss';
-import ApartmentCard from "./apartment-card/apartment-card";
+import './swipe-view.scss';
+import emptyImg from  './empty.svg';
+import ApartmentCard from "../../apartment-card/apartment-card";
 
 const isDev = process.env.NODE_ENV == 'development';
 const hostname = isDev ? 'http://localhost:3000' : '';
@@ -39,12 +40,19 @@ function SwipeView(){
   useEffect(() => loadNext(), [])
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <main className="swipe-view error-message">Error: {error.message}</main>;
   } else if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <main className="swipe-view loading">Loading...</main>;
+  } else if (!item){
+    return (
+      <main className="swipe-view empty">
+          <img src={emptyImg} />
+          <p>No More</p>
+      </main>
+    )
   } else {
     return (
-      <main>
+      <main className="swipe-view">
         <ApartmentCard info={item}
           handleRemove={() => loadNext('removed')}
           handleSave={() => loadNext('saved')}
